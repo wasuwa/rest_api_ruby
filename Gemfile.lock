@@ -47,6 +47,7 @@ GEM
     ruby2_keywords (0.0.5)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
+    webrick (1.7.0)
     zeitwerk (2.4.2)
 
 PLATFORMS
@@ -54,6 +55,7 @@ PLATFORMS
 
 DEPENDENCIES
   grape
+  webrick
 
 RUBY VERSION
    ruby 3.0.0p0
