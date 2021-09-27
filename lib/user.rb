@@ -7,7 +7,7 @@ class User < Grape::API
   get '/users' do
     if @@users.empty?
       status 404
-      { message: 'Not Found User' }
+      { message: 'Not Found Users' }
     else
       status 200
       @@users
