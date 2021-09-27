@@ -14,10 +14,23 @@ class User < Grape::API
     end
   end
 
+  get '/users/:id' do
+    index = params[:id].to_i - 1
+    if @@users[index]
+      status 200
+      @@users[index]
+    else
+      status 404
+      { message: "Not Found User id: #{params[:id]}" }
+    end
+  end
+
   post '/users' do
-    if params[:name] && params[:age]
+    name = params[:name]
+    age  = params[:age]
+    if name && age
       id = @@users.size + 1
-      user = { id: id, name: params[:name], age: params[:age] }
+      user = { id: id, name: name, age: age }
       @@users << user
       status 201
       user
