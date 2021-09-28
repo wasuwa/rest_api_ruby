@@ -48,7 +48,7 @@ class User < Grape::API
     index = params[:id].to_i - 1
     user  = @@users[index]
 
-    if user.nil?
+    unless user
       status 404
       return { message: "Not Found User id: #{params[:id]}" }
     end
