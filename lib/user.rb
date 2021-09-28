@@ -84,4 +84,18 @@ class User < Grape::API
     status 200
     user
   end
+
+  delete 'users/:id' do
+    index = params[:id].to_i - 1
+    user = @@users[index]
+
+    unless user
+      status 404
+      return { message: "'name' and 'age' must be required" }
+    end
+
+    status 204
+    @@users.delete[user]
+    nil
+  end
 end
