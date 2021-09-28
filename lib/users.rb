@@ -1,6 +1,6 @@
 require 'grape'
 
-class User < Grape::API
+class Users < Grape::API
   format :json
   @@users = []
 
