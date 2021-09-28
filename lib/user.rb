@@ -16,6 +16,7 @@ class User < Grape::API
 
   get '/users/:id' do
     index = params[:id].to_i - 1
+
     if @@users[index]
       status 200
       @@users[index]
@@ -28,6 +29,7 @@ class User < Grape::API
   post '/users' do
     name = params[:name]
     age  = params[:age]
+
     if name && age
       id = @@users.size + 1
       user = { id: id, name: name, age: age }
@@ -38,5 +40,26 @@ class User < Grape::API
       status 400
       { message: "'name' and 'age' must be required" }
     end
+  end
+
+  patch '/users/:id' do
+    name  = params[:name]
+    age   = params[:age]
+    index = params[:id].to_i - 1
+    user  = @@user[index]
+
+    if user.nil?
+      status 404
+      return { message: "Not Found User id: #{params[:id]}" }
+    end
+
+    unless name && age
+      status 404
+      { message: "'name' or 'age' must be required" }
+    end
+
+    user[:name] = name if name
+    user[:age]  = age  if age
+    user
   end
 end
