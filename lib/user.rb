@@ -46,7 +46,7 @@ class User < Grape::API
     name  = params[:name]
     age   = params[:age]
     index = params[:id].to_i - 1
-    user  = @@user[index]
+    user  = @@users[index]
 
     if user.nil?
       status 404
@@ -54,7 +54,7 @@ class User < Grape::API
     end
 
     unless name && age
-      status 404
+      status 400
       { message: "'name' or 'age' must be required" }
     end
 
