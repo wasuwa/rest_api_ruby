@@ -55,11 +55,32 @@ class User < Grape::API
 
     unless name && age
       status 400
-      { message: "'name' or 'age' must be required" }
+      return { message: "'name' or 'age' must be required" }
     end
 
     user[:name] = name if name
     user[:age]  = age  if age
+    status 200
+    user
+  end
+
+  put '/users/:id' do
+    name  = params[:name]
+    age   = params[:age]
+    index = params[:id].to_i - 1
+    user  = @@users[index]
+
+    if user.nil?
+      status 404
+      return { message: "Not Found User id: #{params[:id]}" }
+    end
+
+    if name.nil? || age.nil?
+      status 400
+      return { message: "'name' and 'age' must be required" }
+    end
+
+    user[:name], user[:age] = name, age
     status 200
     user
   end
