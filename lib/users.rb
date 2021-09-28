@@ -95,7 +95,7 @@ class Users < Grape::API
     end
 
     status 204
-    @@users.delete[user]
+    @@users.delete(user)
     nil
   end
 end

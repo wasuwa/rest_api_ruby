@@ -1,3 +1,3 @@
-require_relative 'lib/user'
+require_relative 'lib/users'
 
-run Rack::Cascade.new([User])
+run Rack::Cascade.new([Users])
