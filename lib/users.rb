@@ -4,6 +4,13 @@ class Users < Grape::API
   format :json
   @@users = []
 
+  helpers do
+    def not_found_user(id)
+      status 404
+      { message: "Not Found User id: #{id}" }
+    end
+  end
+
   get '/users' do
     if @@users.empty?
       status 404
@@ -21,8 +28,7 @@ class Users < Grape::API
       status 200
       @@users[index]
     else
-      status 404
-      { message: "Not Found User id: #{params[:id]}" }
+      not_found_user(params[:id])
     end
   end
 
@@ -49,8 +55,7 @@ class Users < Grape::API
     user  = @@users[index]
 
     unless user
-      status 404
-      return { message: "Not Found User id: #{params[:id]}" }
+      not_found_user(params[:id])
     end
 
     unless name && age
@@ -71,8 +76,7 @@ class Users < Grape::API
     user  = @@users[index]
 
     if user.nil?
-      status 404
-      return { message: "Not Found User id: #{params[:id]}" }
+      not_found_user(params[:id])
     end
 
     if name.nil? || age.nil?
