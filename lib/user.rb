@@ -60,6 +60,7 @@ class User < Grape::API
 
     user[:name] = name if name
     user[:age]  = age  if age
+    status 200
     user
   end
 end
