@@ -9,6 +9,11 @@ class Users < Grape::API
       status 404
       { message: "Not Found User id: #{id}" }
     end
+
+    def name_age_must_be_required(message)
+      status 400
+      { message: "'name' #{message} 'age' must be required" }
+    end
   end
 
   get '/users' do
@@ -43,8 +48,7 @@ class Users < Grape::API
       status 201
       user
     else
-      status 400
-      { message: "'name' and 'age' must be required" }
+      name_age_must_be_required('and')
     end
   end
 
@@ -59,8 +63,7 @@ class Users < Grape::API
     end
 
     unless name && age
-      status 400
-      return { message: "'name' or 'age' must be required" }
+      name_age_must_be_required('or')
     end
 
     user[:name] = name if name
@@ -80,8 +83,7 @@ class Users < Grape::API
     end
 
     if name.nil? || age.nil?
-      status 400
-      return { message: "'name' and 'age' must be required" }
+      name_age_must_be_required('and')
     end
 
     user[:name], user[:age] = name, age
@@ -94,8 +96,7 @@ class Users < Grape::API
     user = @@users[index]
 
     unless user
-      status 404
-      return { message: "'name' and 'age' must be required" }
+      not_found_user(params[:id])
     end
 
     status 204
