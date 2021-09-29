@@ -14,6 +14,10 @@ class Users < Grape::API
       status 400
       { message: "'name' #{message} 'age' must be required" }
     end
+
+    def users_index(id)
+      id.to_i - 1
+    end
   end
 
   get '/users' do
@@ -27,7 +31,7 @@ class Users < Grape::API
   end
 
   get '/users/:id' do
-    index = params[:id].to_i - 1
+    index = users_index(params[:id])
 
     if @@users[index]
       status 200
@@ -55,15 +59,15 @@ class Users < Grape::API
   patch '/users/:id' do
     name  = params[:name]
     age   = params[:age]
-    index = params[:id].to_i - 1
+    index = users_index(params[:id])
     user  = @@users[index]
 
     unless user
-      not_found_user(params[:id])
+      return not_found_user(params[:id])
     end
 
     unless name && age
-      name_age_must_be_required('or')
+      return name_age_must_be_required('or')
     end
 
     user[:name] = name if name
@@ -75,15 +79,15 @@ class Users < Grape::API
   put '/users/:id' do
     name  = params[:name]
     age   = params[:age]
-    index = params[:id].to_i - 1
+    index = users_index(params[:id])
     user  = @@users[index]
 
     if user.nil?
-      not_found_user(params[:id])
+      return not_found_user(params[:id])
     end
 
     if name.nil? || age.nil?
-      name_age_must_be_required('and')
+      return name_age_must_be_required('and')
     end
 
     user[:name], user[:age] = name, age
@@ -92,11 +96,11 @@ class Users < Grape::API
   end
 
   delete 'users/:id' do
-    index = params[:id].to_i - 1
+    index = users_index(params[:id])
     user = @@users[index]
 
     unless user
-      not_found_user(params[:id])
+      return not_found_user(params[:id])
     end
 
     status 204
