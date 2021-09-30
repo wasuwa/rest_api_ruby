@@ -20,6 +20,11 @@ class Users < Grape::API
     end
   end
 
+  get '/' do
+    status 301
+    redirect '/users'
+  end
+
   get '/users' do
     if @@users.empty?
       status 404
