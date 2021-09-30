@@ -21,7 +21,7 @@ class Users < Grape::API
   end
 
   get '/' do
-    status 301
+    status 302
     redirect '/users'
   end
 
