@@ -5,4 +5,6 @@ gem 'grape'
 gem 'rack'
 gem 'puma'
 gem 'rerun'
+
 gem 'rspec'
+gem 'rack-test'
