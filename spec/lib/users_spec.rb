@@ -20,6 +20,19 @@ RSpec.describe Users do
   describe 'GET /users' do
     before { get '/users' }
 
+    context 'ユーザーが存在する場合' do
+      before do
+        json = '{ "name": "もこう", "age": 30 }'
+        post '/users', json, 'CONTENT_TYPE' => 'application/json'
+        puts last_response.body
+      end
+
+      it '200ステータスコードを返すこと' do
+        get '/users'
+        expect(last_response.status).to eq 200
+      end
+    end
+
     context 'ユーザーが存在しない場合' do
       it '404ステータスコードを返すこと' do
         expect(last_response.status).to eq 404
